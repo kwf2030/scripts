@@ -1,7 +1,8 @@
 # scripts
 
 ## publish-to-maven.gradle
-It's a simple gradle script that can publish your local artifacts to maven repositories.
+
+A simple gradle script that can publish your local artifacts to maven repositories.
 
 Follow these steps:
 
@@ -11,3 +12,9 @@ Follow these steps:
 4. Run `gradle publishToMavenLocal` or `publishToMavenRepository` to publish your artifacts
 
 Done.
+
+## fs.go
+
+A simple file server that support download/upload.
+
+Use `fs -h` to see the usage.
