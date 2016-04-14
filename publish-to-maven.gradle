@@ -1,0 +1,78 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath "org.codehaus.groovy:groovy-json:2.4.6"
+  }
+}
+
+ext {
+  _conf = 'conf.json'
+  _libs = 'libs'
+}
+
+def detectConf() {
+  def f = rootProject.ext._conf as File
+  return f.exists() && f.isFile()
+}
+
+def createConf() {
+  def map = [:]
+  def value = ['groupId': 'xxx', 'artifactId': 'xxx', 'version': 'xxx']
+  (rootProject.ext._libs as File).eachFile { lib ->
+    map."${lib.name}" = value
+  }
+  def json = JsonOutput.toJson(map)
+  (rootProject.ext._conf as File).setText(JsonOutput.prettyPrint(json))
+  rootProject.ext.conf = map
+}
+
+def readConf() {
+  def json = new JsonSlurper()
+  rootProject.ext.conf = json.parse(rootProject.ext._conf as File)
+}
+
+if (detectConf()) {
+  readConf()
+} else {
+  createConf()
+}
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  archives fileTree(rootProject.ext._libs)
+}
+
+publishing {
+  configurations.archives.each { lib ->
+    def l = rootProject.ext.conf[lib.name]
+    publications {
+      "${lib.name}"(MavenPublication) {
+        groupId l.groupId
+        artifactId l.artifactId
+        version l.version
+        artifact lib
+      }
+    }
+  }
+}
+
+task conf << {
+  println '\nPlease complete the conf.json that just generated for you.'
+  println 'Then you can use either of the following command to publish your artifacts.'
+  println '    gradle publishToMavenLocal'
+  println '    gradle publishToMavenRepository'
+}
+
+defaultTasks 'conf'
