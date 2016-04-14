@@ -1,6 +1,7 @@
 # scripts
 
-This is a simple gradle script that can publish your local artifacts to maven repositories.
+## publish-to-maven.gradle
+It's a simple gradle script that can publish your local artifacts to maven repositories.
 
 Follow these steps:
 
