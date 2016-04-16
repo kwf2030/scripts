@@ -21,6 +21,8 @@ Gradle build script for netty
 
 Gradle build script for android projects(include common libraries)
 
+_Does not contain settings.gradle, create it with content `include ':app'`_
+
 ## fs.go
 
 A simple file server that support download/upload.
