@@ -13,6 +13,10 @@ Follow these steps:
 
 Done.
 
+## netty-build.gradle & netty-settings.gradle
+
+Gradle build script for netty
+
 ## fs.go
 
 A simple file server that support download/upload.
