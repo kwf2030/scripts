@@ -17,6 +17,10 @@ Done.
 
 Gradle build script for netty
 
+## android-root-build.gradle & android-app-build.gradle
+
+Gradle build script for android projects(include common libraries)
+
 ## fs.go
 
 A simple file server that support download/upload.
