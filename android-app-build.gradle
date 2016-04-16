@@ -1,0 +1,139 @@
+def PROGUARD = false
+
+def APP = [
+  'VERSION_CODE'       : 1,
+  'VERSION_NAME'       : '1.0.0',
+  'APPLICATION_ID'     : 'com.github.kwf2030',
+  'MIN_SDK_VERSION'    : 16,
+  'TARGET_SDK_VERSION' : 23,
+  'COMPILE_SDK_VERSION': 23,
+  'BUILD_TOOLS_VERSION': '23.0.3'
+]
+
+def SIGN = [
+  'STORE_FILE'    : "xxx.keystore" as File,
+  'STORE_PASSWORD': "xxx",
+  'KEY_ALIAS'     : "xxx",
+  'KEY_PASSWORD'  : "xxx"
+]
+
+def LIB = [
+  'SUPPORT'      : '23.3.0',
+  'DAGGER'       : '2.1',
+  'FASTJSON'     : '1.1.48.android',
+  'GLIDE'        : '3.7.0',
+  'GLIDE_OKHTTP3': '1.4.0',
+  'HAWK'         : '1.23',
+  'OKHTTP'       : '3.2.0',
+  'OKIO'         : '1.7.0',
+  'RETROFIT'     : '2.0.2',
+  'RXANDROID'    : '1.1.0',
+  'RXBINDING'    : '0.4.0',
+  'RXCACHE'      : '1.2.6',
+  'RXJAVA'       : '1.1.3',
+  'RXLIFECYCLE'  : '0.5.0',
+  'RXPERMISSIONS': '0.7.0',
+  'MOCKITO'      : '2.0.46-beta'
+]
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+dependencies {
+  apt "com.google.dagger:dagger-compiler:${LIB.DAGGER}"
+  
+  compile "com.android.support:appcompat-v7:${LIB.SUPPORT}",
+          "com.android.support:design:${LIB.SUPPORT}",
+
+          "com.google.dagger:dagger:${LIB.DAGGER}",
+
+          "com.alibaba:fastjson:${LIB.FASTJSON}",
+
+          "com.github.bumptech.glide:glide:${LIB.GLIDE}",
+          "com.github.bumptech.glide:okhttp3-integration:${LIB.GLIDE_OKHTTP3}@aar",
+
+          "com.github.orhanobut:hawk:${LIB.HAWK}",
+
+          "com.squareup.okhttp3:okhttp:${LIB.OKHTTP}",
+          "com.squareup.okhttp3:okhttp-android-support:${LIB.OKHTTP}",
+          "com.squareup.okio:okio:${LIB.OKIO}",
+          "com.squareup.retrofit2:retrofit:${LIB.RETROFIT}",
+          "com.squareup.retrofit2:adapter-rxjava:${LIB.RETROFIT}",
+
+          "io.reactivex:rxandroid:${LIB.RXANDROID}",
+          "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${LIB.RXBINDING}",
+          "com.github.VictorAlbertos:RxCache:${LIB.RXCACHE}",
+          "io.reactivex:rxjava:${LIB.RXJAVA}",
+          "com.trello:rxlifecycle:${LIB.RXLIFECYCLE}",
+          "com.tbruyelle.rxpermissions:rxpermissions:${LIB.RXPERMISSIONS}"
+
+  testCompile "org.mockito:mockito-core:${LIB.MOCKITO}"
+}
+
+//noinspection GroovyAssignabilityCheck
+configurations {
+  compile.exclude module: 'guava'
+  compile.exclude module: 'gson'
+  compile.exclude module: 'dagger-compiler'
+}
+
+android {
+  compileSdkVersion APP.COMPILE_SDK_VERSION
+  buildToolsVersion APP.BUILD_TOOLS_VERSION
+
+  defaultConfig {
+    applicationId APP.APPLICATION_ID
+    minSdkVersion APP.MIN_SDK_VERSION
+    targetSdkVersion APP.TARGET_SDK_VERSION
+    versionCode APP.VERSION_CODE
+    versionName APP.VERSION_NAME
+
+    multiDexEnabled true
+
+    /*jackOptions {
+      enabled true
+    }*/
+  }
+
+  signingConfigs {
+    release {
+      storeFile SIGN.STORE_FILE
+      storePassword SIGN.STORE_PASSWORD
+      keyAlias SIGN.KEY_ALIAS
+      keyPassword SIGN.KEY_PASSWORD
+    }
+  }
+
+  buildTypes {
+    debug {
+      debuggable true
+      minifyEnabled false
+      //buildConfigField "boolean", "CONST", "true"
+    }
+
+    release {
+      debuggable false
+      minifyEnabled PROGUARD
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      signingConfig signingConfigs.release
+      zipAlignEnabled true
+      shrinkResources PROGUARD
+    }
+  }
+
+  packagingOptions {
+    exclude 'META-INF/NOTICE.txt'
+    exclude 'META-INF/LICENSE.txt'
+    exclude 'META-INF/rxjava.properties'
+  }
+
+  compileOptions {
+    encoding 'UTF-8'
+    sourceCompatibility 1.7
+    targetCompatibility 1.7
+  }
+
+  lintOptions {
+    abortOnError false
+  }
+}
