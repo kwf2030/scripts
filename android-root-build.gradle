@@ -1,0 +1,25 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath 'com.android.tools.build:gradle:2.+'
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+  }
+}
+
+allprojects {
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    maven { url "https://jitpack.io" }
+    //maven { url 'http://xxx/nexus/content/groups/public/' }
+  }
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.12'
+  distributionUrl = "http://xxx/files/gradle-${gradleVersion}-bin.zip"
+}
