@@ -33,7 +33,13 @@ def LIB = [
   'RXJAVA'       : '1.1.3',
   'RXLIFECYCLE'  : '0.5.0',
   'RXPERMISSIONS': '0.7.0',
-  'MOCKITO'      : '2.0.46-beta'
+  
+  'JUNIT'           : '4.12',
+  'MOCKITO'         : '2.0.48-beta',
+  'RUNNER'          : '0.4.1',
+  'RULES'           : '0.4.1',
+  'DEXMAKER'        : '1.2',
+  'ESPRESSO'        : '2.2.1'
 ]
 
 apply plugin: 'com.android.application'
@@ -69,7 +75,22 @@ dependencies {
           "com.trello:rxlifecycle:${LIB.RXLIFECYCLE}",
           "com.tbruyelle.rxpermissions:rxpermissions:${LIB.RXPERMISSIONS}"
 
-  testCompile "org.mockito:mockito-core:${LIB.MOCKITO}"
+  testCompile "junit:junit:$LIB.JUNIT",
+              "org.mockito:mockito-core:${LIB.MOCKITO}"
+              
+  androidTestCompile "com.android.support.test:runner:$LIB.RUNNER",
+                     "com.android.support.test:rules:$LIB.RULES",
+                     
+                     "junit:junit:$LIB.JUNIT",
+                     "org.mockito:mockito-core:${LIB.MOCKITO}"
+                     "com.google.dexmaker:dexmaker:$LIB.DEXMAKER",
+                     "com.google.dexmaker:dexmaker-mockito:$LIB.DEXMAKER",
+                     
+                     "com.android.support.test.espresso:espresso-core:$LIB.ESPRESSO",
+                     "com.android.support.test.espresso:espresso-contrib:$LIB.ESPRESSO",
+                     "com.android.support.test.espresso:espresso-intents:$LIB.ESPRESSO",
+                     
+                     "com.android.support:appcompat-v7:$LIB.SUPPORT"
 }
 
 configurations.compile.exclude module: 'guava'
@@ -90,6 +111,8 @@ android {
     /*jackOptions {
       enabled true
     }*/
+    
+    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
   }
 
   signingConfigs {
@@ -132,5 +155,11 @@ android {
 
   lintOptions {
     abortOnError false
+  }
+  
+  testOptions.unitTests.all {
+    testLogging {
+      events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+    }
   }
 }
