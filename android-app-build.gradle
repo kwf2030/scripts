@@ -64,9 +64,11 @@ dependencies {
 
     "com.squareup.okhttp3:okhttp:${LIB.OKHTTP}",
     "com.squareup.okhttp3:okhttp-android-support:${LIB.OKHTTP}",
+    "com.squareup.okhttp3:logging-interceptor:${LIB.OKHTTP}",
     "com.squareup.okio:okio:${LIB.OKIO}",
     "com.squareup.retrofit2:retrofit:${LIB.RETROFIT}",
     "com.squareup.retrofit2:adapter-rxjava:${LIB.RETROFIT}",
+    "com.squareup.retrofit2:converter-gson:${LIB.RETROFIT}",
 
     "io.reactivex:rxandroid:${LIB.RXANDROID}",
     "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${LIB.RXBINDING}",
