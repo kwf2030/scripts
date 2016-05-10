@@ -13,13 +13,17 @@ Follow these steps:
 
 Done.
 
-## netty-build.gradle & netty-settings.gradle
+## java8-build.gradle
 
-Gradle build script for netty
+Gradle build script for java 8 projects
 
 ## android-root-build.gradle & android-app-build.gradle
 
 Gradle build script for android projects(include common libraries)
+
+## netty-build.gradle & netty-settings.gradle
+
+Gradle build script for netty
 
 _Does not contain settings.gradle, create it with content `include ':app'`_
 
