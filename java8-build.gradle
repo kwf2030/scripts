@@ -1,0 +1,105 @@
+plugins {
+  id 'application'
+}
+
+def LIB = [
+  'VERTX'   : '3.2.1',
+  'NETTY'   : '4.1.0.CR7',
+
+  'RETROFIT': '2.0.2',
+  'OKHTTP'  : '3.2.0',
+
+  'MARIADB' : '1.4.4',
+  'JOOQ'    : '3.8.0',
+
+  'GUAVA'   : '19.0',
+  'CAFFEINE': '2.3.0',
+
+  'GSON'    : '2.6.2',
+
+  'RXJAVA'  : '1.1.5',
+
+  'DAGGER'  : '2.1',
+
+  'ASSERTJ' : '3.4.1',
+  'MOCKITO' : '2.0.48-beta',
+  'TESTNG'  : '6.9.11'
+]
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version = '0.1.0'
+mainClassName = 'com.github.kwf2030.Launcher'
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+  options.warnings = false
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile "io.vertx:vertx-core:${LIB.VERTX}"
+  compile "io.vertx:vertx-web:${LIB.VERTX}"
+  //compile "io.netty:netty-all:${LIB.NETTY}"
+
+  compile "com.squareup.retrofit2:retrofit:${LIB.RETROFIT}"
+  compile "com.squareup.okhttp3:okhttp:${LIB.OKHTTP}"
+
+  compile "org.mariadb.jdbc:mariadb-java-client:${LIB.MARIADB}"
+  compile "org.jooq:jooq:${LIB.JOOQ}"
+  compile "org.jooq:jooq-meta:${LIB.JOOQ}"
+  compile "org.jooq:jooq-codegen:${LIB.JOOQ}"
+
+  compile "com.google.guava:guava:${LIB.GUAVA}"
+  compile "com.github.ben-manes.caffeine:caffeine:${LIB.CAFFEINE}"
+
+  compile "com.google.code.gson:gson:${LIB.GSON}"
+
+  compile "io.reactivex:rxjava:${LIB.RXJAVA}"
+
+  compile "com.google.dagger:dagger:${LIB.DAGGER}"
+  compile "com.google.dagger:dagger-compiler:${LIB.DAGGER}"
+
+  testCompile 'org.assertj:assertj-core:3.4.1'
+  testCompile 'org.mockito:mockito-core:2.0.36-beta'
+  testCompile 'org.testng:testng:6.9.10'
+}
+
+def getManifest(boolean addMainClass) {
+  return {
+    attributes 'Created-By': "Gradle-${gradle.gradleVersion}"
+    attributes 'Implementation-Title': name
+    attributes 'Implementation-Version': version
+    if (addMainClass) {
+      attributes 'Main-Class': mainClassName
+    }
+  }
+}
+
+jar {
+  manifest getManifest(false)
+}
+
+test {
+  useTestNG()
+}
+
+task fatJar(type: Jar) {
+  baseName = project.name + '-all'
+  with jar
+  from {
+    configurations.compile.collect {
+      it.isDirectory() ? it : zipTree(it).matching {
+        include 'com/**'
+        include 'org/**'
+        include 'io/**'
+        include 'META-INF/native/**'
+      }
+    }
+  }
+  manifest getManifest(true)
+}
