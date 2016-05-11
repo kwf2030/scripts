@@ -20,6 +20,8 @@ def LIB = [
   'RXJAVA'  : '1.1.5',
 
   'DAGGER'  : '2.1',
+  
+  'JSR305'  : '3.0.1',
 
   'ASSERTJ' : '3.4.1',
   'MOCKITO' : '2.0.48-beta',
@@ -63,6 +65,8 @@ dependencies {
 
   compile "com.google.dagger:dagger:${LIB.DAGGER}"
   compile "com.google.dagger:dagger-compiler:${LIB.DAGGER}"
+  
+  compile "com.google.code.findbugs:jsr305:${LIB.JSR305}"
 
   testCompile 'org.assertj:assertj-core:3.4.1'
   testCompile 'org.mockito:mockito-core:2.0.36-beta'
