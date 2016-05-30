@@ -23,13 +23,12 @@ def LIB = [
   'BUTTERKNIFE': '8.0.0',
   'DAGGER'     : '2.1',
   'GSON'       : '2.6.2',
-  'OKHTTP'     : '3.2.0',
-  'OKIO'       : '1.7.0',
+  'OKHTTP'     : '3.3.1',
   'RETROFIT'   : '2.0.2',
   'REQUERY'    : '1.0.0-beta16',
-  'RXANDROID'  : '1.1.0',
-  'RXCACHE'    : '1.2.6',
-  'RXJAVA'     : '1.1.3',
+  'RXANDROID'  : '1.2.0',
+  'RXCACHE'    : '1.4.7',
+  'RXJAVA'     : '1.1.5',
 
   'RUNNER'     : '0.4.1',
   'RULES'      : '0.4.1',
@@ -72,8 +71,6 @@ dependencies {
   compile "com.squareup.okhttp3:okhttp:$LIB.OKHTTP"
   compile "com.squareup.okhttp3:logging-interceptor:$LIB.OKHTTP"
   compile "com.squareup.okhttp3:okhttp-android-support:$LIB.OKHTTP"
-
-  compile "com.squareup.okio:okio:$LIB.OKIO"
 
   compile "com.squareup.retrofit2:retrofit:$LIB.RETROFIT"
   compile "com.squareup.retrofit2:adapter-rxjava:$LIB.RETROFIT"
